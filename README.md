@@ -1,4 +1,4 @@
-# Swarnali Mollick - Updated Data Science & Applied AI Portfolio
+# Swarnali Mollick - Data Science & Applied AI Portfolio
 
 A recruiter-friendly Next.js portfolio organised around one clear identity:
 
