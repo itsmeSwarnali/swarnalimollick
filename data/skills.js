@@ -5,7 +5,7 @@ export const skills=[
   },
   {
     title:"Machine Learning",
-    items:["Scikit-learn","Classification","Model Evaluation","XGBoost","Imbalanced Data","Cross-validation"]
+    items:["Scikit-learn","Model Evaluation","Imbalanced Data","Cross-validation"]
   },
   {
     title:"LLM & NLP",
