@@ -1,15 +1,67 @@
-import Image from "next/image";
-import Link from "next/link";
-import { notFound } from "next/navigation";
-import { getProject, projects } from "@/data/projects";
-import { siteConfig } from "@/data/siteConfig";
+import Image from 'next/image';
+import Link from 'next/link';
+import {getProject,projects} from '@/data/projects';
+import {notFound} from 'next/navigation';
 
-export function generateStaticParams(){return projects.filter(project=>project.hasCaseStudy!==false).map(project=>({slug:project.slug}));}
-export async function generateMetadata({params}){const {slug}=await params;const project=getProject(slug);if(!project||project.hasCaseStudy===false)return{};return{title:project.title,description:project.summary,alternates:{canonical:`/projects/${project.slug}`},openGraph:{title:project.title,description:project.summary,url:`${siteConfig.url}/projects/${project.slug}`,images:[project.image]}};}
+export function generateStaticParams(){
+  return projects.filter(p=>p.hasCaseStudy!==false).map(p=>({slug:p.slug}));
+}
 
-export default async function ProjectPage({params}){const {slug}=await params;const project=getProject(slug);if(!project||project.hasCaseStudy===false)notFound();const structured={"@context":"https://schema.org","@type":"CreativeWork",name:project.title,description:project.summary,url:`${siteConfig.url}/projects/${project.slug}`,creator:{"@type":"Person",name:siteConfig.name}};return <>
-  <section className="case-hero section"><div className="container"><Link className="back-link" href="/#projects">← Back to projects</Link><div className="case-grid"><div><p className="eyebrow">{project.category} · {project.status}</p><h1>{project.title}</h1><p className="case-lead">{project.summary}</p><strong className="case-result">{project.result}</strong><div className="tech-list large">{project.technologies.map(t=><span key={t}>{t}</span>)}</div><div className="project-actions">{project.demo&&<a className="btn" href={project.demo} target="_blank" rel="noreferrer">Open Live Demo</a>}{project.github&&<a className="btn btn-secondary" href={project.github} target="_blank" rel="noreferrer">View GitHub</a>}</div>{project.disclaimer&&<p className="disclaimer">{project.disclaimer}</p>}</div><div className="case-image"><Image src={project.image} alt={`${project.title} conceptual thumbnail`} fill priority unoptimized sizes="(min-width: 900px) 48vw, 92vw"/></div></div></div></section>
-  <section className="section section-alt"><div className="container case-content"><article><p className="eyebrow">Problem</p><h2>Why this project matters</h2><p>{project.problem}</p></article><CaseList title="Approach" items={project.approach}/><CaseList title="Outcomes" items={project.outcomes}/><CaseList title="Challenges" items={project.challenges}/><CaseList title="Next steps" items={project.nextSteps}/></div></section>
-  <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(structured)}}/>
-</>}
-function CaseList({title,items}){return <article><p className="eyebrow">{title}</p><ul>{items.map(item=><li key={item}>{item}</li>)}</ul></article>}
+function DetailSection({section}){
+  return <article className="case-detail-card">
+    {section.label&&<p className="eyebrow">{section.label}</p>}
+    <h2>{section.title}</h2>
+    {section.text&&<p>{section.text}</p>}
+    {section.items?.length>0&&<ul>{section.items.map(item=><li key={item}>{item}</li>)}</ul>}
+  </article>;
+}
+
+export default async function Page({params}){
+  const{slug}=await params;
+  const p=getProject(slug);
+  if(!p||p.hasCaseStudy===false)notFound();
+  const caseStudy=p.caseStudy||{};
+  const sections=caseStudy.sections||[];
+  const screenshots=p.screenshots||[];
+
+  return <>
+    <section className="case-hero section">
+      <div className="container">
+        <Link className="back-link" href="/#projects">← Back to projects</Link>
+        <div className="case-grid">
+          <div>
+            <p className="eyebrow">{p.category}</p>
+            <h1>{p.title}</h1>
+            <p className="case-lead">{p.summary}</p>
+            <strong className="case-result">{p.result}</strong>
+            <div className="tech-list large">{p.technologies.map(t=><span key={t}>{t}</span>)}</div>
+            <div className="project-actions">{p.github&&<a className="btn" href={p.github} target="_blank" rel="noreferrer">GitHub</a>}</div>
+          </div>
+          <div className="case-image"><Image src={p.image} alt={p.title} fill unoptimized sizes="(min-width: 900px) 45vw, 94vw"/></div>
+        </div>
+      </div>
+    </section>
+
+    <section className="section case-study-section">
+      <div className="container">
+        <article className="case-overview-card">
+          <p className="eyebrow">Case study</p>
+          <h2>Project overview</h2>
+          <p>{caseStudy.overview||p.summary}</p>
+        </article>
+        <div className="case-detail-grid">{sections.map(section=><DetailSection key={`${section.label}-${section.title}`} section={section}/>)}</div>
+
+        {screenshots.length>0&&<div className="case-gallery-block">
+          <p className="eyebrow">Project screenshots</p>
+          <h2>Working application and system flow</h2>
+          <div className={`case-gallery${screenshots.length===1?' case-gallery-single':''}`}>
+            {screenshots.map(shot=><figure className="case-shot" key={shot.src}>
+              <div className="case-shot-image"><Image src={shot.src} alt={shot.alt} width={shot.width} height={shot.height} unoptimized sizes="(min-width: 900px) 50vw, 94vw"/></div>
+              {shot.caption&&<figcaption>{shot.caption}</figcaption>}
+            </figure>)}
+          </div>
+        </div>}
+      </div>
+    </section>
+  </>;
+}

@@ -1,2 +1,1 @@
-const nextConfig = { reactStrictMode: true, poweredByHeader: false };
-export default nextConfig;
+const nextConfig={images:{remotePatterns:[{protocol:'https',hostname:'raw.githubusercontent.com'}]}}; export default nextConfig;

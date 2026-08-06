@@ -6,7 +6,7 @@ export const publications = [
 ];
 
 export const awards = [
-  "Italian Government MAECI Scholarship · 2024-2026",
+  "Italian Government MAECI Scholarship · 2024–2026",
   "Best Paper Award · Human-Centric Intelligent Systems",
   "NUBTK Departmental Scholarship for Excellent Results · 2018 & 2019",
   "Best Web Designer Award · The Virtual BD"

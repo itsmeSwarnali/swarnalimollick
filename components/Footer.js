@@ -1,2 +1,1 @@
-import { socialLinks } from "@/data/socialLinks";
-export default function Footer(){return <footer className="footer"><div className="container footer-row"><p>© 2026 Swarnali Mollick</p><div><a href={socialLinks.github}>GitHub</a><a href={socialLinks.linkedin}>LinkedIn</a><a href={socialLinks.scholar}>Scholar</a></div></div></footer>}
+export default function Footer(){return <footer className="footer"><div className="container footer-row"><span>© 2026 Swarnali Mollick</span><div><a href="https://github.com/itsmeSwarnali">GitHub</a><a href="https://www.linkedin.com/in/s-mollick/">LinkedIn</a><a href="https://scholar.google.com/citations?user=1savjdEAAAAJ&hl=en">Scholar</a></div></div></footer>}

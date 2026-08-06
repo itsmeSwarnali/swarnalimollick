@@ -1,18 +1,18 @@
-export const skillGroups = [
+export const skills=[
   {
-    title: "Data & Programming",
-    skills: ["Python", "SQL", "Pandas", "NumPy", "EDA", "Feature Engineering"],
+    title:"Data & Programming",
+    items:["Python","SQL","Pandas","NumPy","EDA","Feature Engineering"]
   },
   {
-    title: "Machine Learning",
-    skills: ["Scikit-learn", "Classification", "Model Evaluation", "XGBoost", "Imbalanced Data", "Cross-validation"],
+    title:"Machine Learning",
+    items:["Scikit-learn","Classification","Model Evaluation","XGBoost","Imbalanced Data","Cross-validation"]
   },
   {
-    title: "LLM & NLP",
-    skills: ["RAG", "LangChain", "Hugging Face", "Embeddings", "Vector Databases", "DistilBERT", "Llama"],
+    title:"LLM & NLP",
+    items:["RAG","LangChain","Hugging Face","Embeddings","Vector Databases","DistilBERT","Llama"]
   },
   {
-    title: "AI Engineering",
-    skills: ["PyTorch", "Streamlit", "FastAPI", "Git & GitHub", "REST APIs", "Cloud Deployment"],
-  },
+    title:"AI Engineering",
+    items:["PyTorch","Streamlit","FastAPI","Git & GitHub","REST APIs","Cloud Deployment"]
+  }
 ];

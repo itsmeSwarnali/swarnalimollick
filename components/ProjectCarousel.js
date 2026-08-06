@@ -1,52 +1,28 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
-import ProjectCard from "./ProjectCard";
-
-export default function ProjectCarousel({ projects, label, autoPlay = false }) {
-  const ref = useRef(null);
-  const [paused, setPaused] = useState(false);
-
-  const move = (direction) => {
-    const track = ref.current;
-    if (!track) return;
-    const first = track.querySelector(".project-card");
-    const amount = (first?.getBoundingClientRect().width || 360) + 20;
-    const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 12;
-    const atStart = track.scrollLeft <= 12;
-
-    if (direction > 0 && atEnd) {
-      track.scrollTo({ left: 0, behavior: "smooth" });
-    } else if (direction < 0 && atStart) {
-      track.scrollTo({ left: track.scrollWidth, behavior: "smooth" });
-    } else {
-      track.scrollBy({ left: direction * amount, behavior: "smooth" });
-    }
+'use client'; import {useEffect,useRef} from 'react'; import ProjectCard from './ProjectCard';
+export default function ProjectCarousel({projects}){
+  const r=useRef(null);
+  const go=d=>{
+    const el=r.current;
+    if(!el)return;
+    const max=el.scrollWidth-el.clientWidth;
+    const step=el.clientWidth*.85;
+    if(d>0&&el.scrollLeft>=max-4)el.scrollTo({left:0,behavior:'smooth'});
+    else if(d<0&&el.scrollLeft<=4)el.scrollTo({left:max,behavior:'smooth'});
+    else el.scrollBy({left:d*step,behavior:'smooth'});
   };
-
-  useEffect(() => {
-    if (!autoPlay || paused || projects.length < 2) return undefined;
-    const id = window.setInterval(() => move(1), 4800);
-    return () => window.clearInterval(id);
-  }, [autoPlay, paused, projects.length]);
-
-  return (
-    <div
-      className="project-carousel-wrap"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocusCapture={() => setPaused(true)}
-      onBlurCapture={() => setPaused(false)}
-    >
-      {projects.length > 1 && (
-        <div className="project-carousel-controls">
-          <button type="button" onClick={() => move(-1)} aria-label={`Scroll ${label} projects left`}>‹</button>
-          <button type="button" onClick={() => move(1)} aria-label={`Scroll ${label} projects right`}>›</button>
-        </div>
-      )}
-      <div className="project-carousel-track" ref={ref} aria-live="polite">
-        {projects.map((project) => <ProjectCard key={project.slug} project={project} />)}
-      </div>
-    </div>
-  );
+  useEffect(()=>{
+    const el=r.current;
+    if(!el)return;
+    el.scrollTo({left:0});
+    if(projects.length<=1)return;
+    const id=setInterval(()=>{
+      const track=r.current;
+      if(!track)return;
+      const max=track.scrollWidth-track.clientWidth;
+      if(track.scrollLeft>=max-4)track.scrollTo({left:0,behavior:'smooth'});
+      else track.scrollBy({left:track.clientWidth*.85,behavior:'smooth'});
+    },5000);
+    return()=>clearInterval(id);
+  },[projects]);
+  return <div className="project-carousel-wrap"><div className="project-carousel-controls"><button onClick={()=>go(-1)}>‹</button><button onClick={()=>go(1)}>›</button></div><div className="project-carousel-track" ref={r}>{projects.map(p=><ProjectCard key={p.slug} project={p}/>)}</div></div>;
 }

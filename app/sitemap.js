@@ -1,1 +1,0 @@
-import { projects } from "@/data/projects";import { siteConfig } from "@/data/siteConfig";export default function sitemap(){return[{url:siteConfig.url,lastModified:new Date(),changeFrequency:"monthly",priority:1},...projects.filter(p=>p.hasCaseStudy!==false).map(p=>({url:`${siteConfig.url}/projects/${p.slug}`,lastModified:new Date(),changeFrequency:"monthly",priority:.8}))]}

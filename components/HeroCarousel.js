@@ -1,22 +1,2 @@
-"use client";
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-
-export default function HeroCarousel({projects}){
-  const [index,setIndex]=useState(0);
-  useEffect(()=>{const id=setInterval(()=>setIndex(v=>(v+1)%projects.length),5000);return()=>clearInterval(id);},[projects.length]);
-  const project=projects[index];
-  const hasCaseStudy=project.hasCaseStudy!==false;
-  return <div className="hero-carousel" aria-roledescription="carousel">
-    <div className="hero-slide-image"><Image src={project.image} alt={`${project.title} conceptual project thumbnail`} fill priority unoptimized sizes="(min-width: 900px) 40vw, 94vw" /></div>
-    <div className="hero-slide-copy"><span>{project.category}</span><h2>{project.title}</h2>
-      {project.minimal
-        ? <div className="hero-tech-list">{project.technologies.map(t=><em key={t}>{t}</em>)}</div>
-        : <>{project.summary&&<p>{project.summary}</p>}{hasCaseStudy&&<Link href={`/projects/${project.slug}`}>Open case study →</Link>}</>}
-    </div>
-    <button className="carousel-arrow prev" onClick={()=>setIndex((index-1+projects.length)%projects.length)} aria-label="Previous project">‹</button>
-    <button className="carousel-arrow next" onClick={()=>setIndex((index+1)%projects.length)} aria-label="Next project">›</button>
-    <div className="carousel-dots">{projects.map((p,i)=><button key={p.slug} className={i===index?"active":""} onClick={()=>setIndex(i)} aria-label={`Show ${p.title}`} />)}</div>
-  </div>
-}
+'use client'; import Image from 'next/image'; import Link from 'next/link'; import {useEffect,useState} from 'react';
+export default function HeroCarousel({projects}){const[i,setI]=useState(0);useEffect(()=>{const x=setInterval(()=>setI(v=>(v+1)%projects.length),5000);return()=>clearInterval(x)},[projects.length]);const p=projects[i];return <div className="hero-carousel"><div className="hero-slide-image"><Image src={p.image} alt={p.title} fill priority unoptimized/></div><div className="hero-slide-copy"><span>{p.category}</span><h2>{p.title}</h2>{p.minimal?<div className="hero-tech-list">{p.technologies.map(t=><em key={t}>{t}</em>)}</div>:<><p>{p.summary}</p><Link href={`/projects/${p.slug}`}>Open case study →</Link></>}</div><button className="carousel-arrow prev" onClick={()=>setI((i-1+projects.length)%projects.length)}>‹</button><button className="carousel-arrow next" onClick={()=>setI((i+1)%projects.length)}>›</button><div className="carousel-dots">{projects.map((x,n)=><button key={x.slug} className={n===i?'active':''} onClick={()=>setI(n)}/>)}</div></div>}
