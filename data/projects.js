@@ -1,4 +1,4 @@
-const base='https://raw.githubusercontent.com/itsmeSwarnali/swarnalimollick/main/public/projects/';
+const base='https://raw.githubusercontent.com/itsmeSwarnali/swarnalimollick/3d1c3c1ed4da0d0118f938c4289be4560d58d1aa/public/projects/';
 export const projects=[
 {
   slug:'customer-retention-predictor',title:'Customer Retention Predictor',category:'Data Science & Predictive Analytics',status:'Completed',summary:'Predicts telecom customers at risk of leaving so businesses can take retention action early.',technologies:['Python','Pandas','Scikit-learn','FastAPI','Docker'],result:'ROC-AUC 0.845 · Accuracy 80.4%',image:base+'customer-retention-predictor.webp',github:'https://github.com/itsmeSwarnali/customer-churn-prediction-with-FastAPI-Docker-Deployment',featured:true,
